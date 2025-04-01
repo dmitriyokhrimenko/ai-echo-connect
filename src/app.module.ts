@@ -22,6 +22,12 @@ import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
       entities: [__dirname + '/../**/*.entity{.ts,.js}'],
       synchronize: true,
       autoLoadEntities: true,
+      ssl: true,
+      extra: {
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      },
     }),
     AuthModule,
     UsersModule,
