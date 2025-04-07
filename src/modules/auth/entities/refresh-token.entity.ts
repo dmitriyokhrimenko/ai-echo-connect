@@ -8,13 +8,18 @@ import {
 } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 
+export enum TokenType {
+  WEB = 'web',
+  MOBILE = 'mobile',
+}
+
 @Entity('refresh_tokens')
 export class RefreshToken {
   @PrimaryGeneratedColumn('uuid')
   id: number;
 
-  @Column()
-  name: string;
+  @Column({ type: 'enum', enum: TokenType, default: TokenType.MOBILE })
+  type: TokenType;
 
   @ManyToOne(() => User, (user) => user.refreshTokens)
   user: User;
