@@ -11,6 +11,6 @@ export class SignupDto {
   })
   password: string;
 
-  @IsString()
+  @IsString({ message: `Name should be a string` })
   name: string;
 }
