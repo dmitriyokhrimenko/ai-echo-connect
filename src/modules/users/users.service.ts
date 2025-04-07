@@ -10,6 +10,7 @@ export class UsersService {
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
   ) {}
+
   async create(createUserDto: CreateUserDto) {
     return this.usersRepository.save(createUserDto);
   }

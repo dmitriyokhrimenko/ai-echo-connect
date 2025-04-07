@@ -23,6 +23,7 @@ export class AuthController {
   async signUp(@Body() signUpData: SignupDto) {
     return this.authService.signup(signUpData);
   }
+
   @Public()
   @UseGuards(LocalAuthGuard)
   @HttpCode(HttpStatus.OK)
