@@ -6,52 +6,36 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
-import { I18nModule } from 'nestjs-i18n';
+// import { I18nModule } from 'nestjs-i18n';
 import { LoggerModule } from './modules/logger/logger.module';
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
+import { ChatgptModule } from './modules/chatgpt/chatgpt.module';
+import { GeminiModule } from './modules/gemini/gemini.module';
+import { dataSourceOptions } from '../db/data-source';
 
 @Module({
   imports: [
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true }),
-    I18nModule.forRootAsync({
-      useFactory: () => ({
-        fallbackLanguage: 'en',
-        loaderOptions: {
-          path: './src/modules/i18n',
-          watch: true,
-        },
-      }),
-    }),
+    // I18nModule.forRootAsync({
+    //   useFactory: () => ({
+    //     fallbackLanguage: 'en',
+    //     loaderOptions: {
+    //       path: './i18n',
+    //       watch: true,
+    //     },
+    //   }),
+    // }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => {
-        const env = configService.get<string>('ENV');
-        return {
-          type: 'postgres',
-          host: configService.get<string>('DB_HOST'),
-          port: Number(configService.get<string>('DB_PORT')),
-          username: configService.get<string>('DB_USERNAME'),
-          password: configService.get<string>('DB_PASSWORD'),
-          database: configService.get<string>('DB_DATABASE'),
-          entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-          synchronize: ['development', 'local'].includes(env),
-          autoLoadEntities: true,
-          ...(env === 'development' && {
-            ssl: true,
-            extra: {
-              ssl: {
-                rejectUnauthorized: false,
-              },
-            },
-          }),
-        };
-      },
+      useFactory: async () => dataSourceOptions,
     }),
     AuthModule,
     UsersModule,
     LoggerModule,
+    ChatgptModule,
+    GeminiModule,
   ],
   controllers: [],
   providers: [
