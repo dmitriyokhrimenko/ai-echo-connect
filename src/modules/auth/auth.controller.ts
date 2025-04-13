@@ -11,8 +11,6 @@ import { AuthService } from './auth.service';
 import { SignupDto } from './dtos/signup.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { Public } from '../../common/decorators/public.decorator';
-import { CurrentUser } from '../../common/decorators/current-user.decorator';
-import { User } from '../users/entities/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -28,13 +26,13 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  async login(@CurrentUser() user: User) {
-    return this.authService.login(user);
+  async login(@Request() req) {
+    return this.authService.login(req);
   }
 
-  @UseGuards(LocalAuthGuard)
+  @HttpCode(HttpStatus.OK)
   @Post('logout')
   async logout(@Request() req) {
-    return req.logout();
+    return this.authService.logout(req.user);
   }
 }

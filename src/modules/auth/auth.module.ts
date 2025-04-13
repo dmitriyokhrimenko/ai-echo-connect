@@ -8,12 +8,19 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { RefreshTokenService } from './refresh-token.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { RefreshToken } from './entities/refresh-token.entity';
+import { LoginUseCase } from './use-cases/login.use-case';
+import { SignupUseCase } from './use-cases/signup.use-case';
+import { LogoutUseCase } from './use-cases/logout.use-case';
 
 @Module({
   imports: [
     ConfigModule,
     UsersModule,
     PassportModule,
+    TypeOrmModule.forFeature([RefreshToken]),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -26,6 +33,15 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy, JwtAuthGuard],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    JwtStrategy,
+    JwtAuthGuard,
+    RefreshTokenService,
+    LoginUseCase,
+    SignupUseCase,
+    LogoutUseCase,
+  ],
 })
 export class AuthModule {}
