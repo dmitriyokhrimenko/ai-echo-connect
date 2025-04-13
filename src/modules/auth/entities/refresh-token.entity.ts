@@ -31,7 +31,7 @@ export class RefreshToken {
   revoked: boolean;
 
   @Column()
-  deviceId: number;
+  device_id: number;
 
   @CreateDateColumn({
     type: 'timestamp',
