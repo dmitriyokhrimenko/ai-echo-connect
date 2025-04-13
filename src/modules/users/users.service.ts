@@ -12,15 +12,24 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    return this.usersRepository.save(createUserDto);
+    const user = this.usersRepository.create(createUserDto);
+    return this.usersRepository.save(user);
   }
 
   findAll() {
-    return `This action returns all users`;
+    return this.usersRepository.find();
   }
 
   findOne({ id, email }: { id?: number; email?: string }) {
     return this.usersRepository.findOne({ where: [{ id }, { email }] });
+  }
+
+  getUserById(id: number) {
+    return this.usersRepository.findOne({ where: { id } });
+  }
+
+  getUserByEmail(email: string) {
+    return this.usersRepository.findOne({ where: { email } });
   }
 
   update(id: number) {
