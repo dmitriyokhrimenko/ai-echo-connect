@@ -12,6 +12,7 @@ import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 import { ChatgptModule } from './modules/chatgpt/chatgpt.module';
 import { GeminiModule } from './modules/gemini/gemini.module';
 import { dataSourceOptions } from '../db/data-source';
+import { VoiceProfilesModule } from './voice-profiles/voice-profiles.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { dataSourceOptions } from '../db/data-source';
     LoggerModule,
     ChatgptModule,
     GeminiModule,
+    VoiceProfilesModule,
   ],
   controllers: [],
   providers: [

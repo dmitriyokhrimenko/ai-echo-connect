@@ -17,10 +17,6 @@ export class AuthService {
     private logoutUseCase: LogoutUseCase,
   ) {}
 
-  async signup(signupDto: SignupDto) {
-    return this.signupUseCase.execute(signupDto);
-  }
-
   async validateUser(email: string, password: string) {
     const user = await this.usersService.getUserByEmail(email);
     if (!user) return null;
@@ -32,6 +28,10 @@ export class AuthService {
       }
     }
     return null;
+  }
+
+  async signup(signupDto: SignupDto) {
+    return this.signupUseCase.execute(signupDto);
   }
 
   async login(user: User): Promise<LoginResponce> {

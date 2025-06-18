@@ -16,7 +16,7 @@ export const dataSourceOptions: DataSourceOptions = {
   database: configService.get<string>('DB_DATABASE'),
   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
   migrations: [
-    isCompiled ? 'dist/migrations/**/*.js' : 'db/migrations/**/*.ts',
+    isCompiled ? __dirname + '/migrations/**/*.js' : 'db/migrations/**/*.ts',
   ],
   synchronize: false,
   ...(configService.get<string>('ENV') === 'development' && {
